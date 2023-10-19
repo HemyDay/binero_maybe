@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+
+    <title>Binero Maybe</title>
+</head>
+
+<body>
+    <section class="Rules">
+        <h1>Binero</h1>
+        <p>But du jeu : Remplir la grille à l'aide des chifres 0 et 1</p>
+        <p>Règles de placement:</p>
+        <p>Pas plus de deux 0 ou deux 1 consécutifs.</p>
+        <p>Chaque ligne et chaque colonne contiennent autant de 0 que de 1 (cinq chacun)</p>
+        <p>Deux lignes ou deux colonnes ne peuvent être identiques</p>
+
+        
+    </section>
+
+    <section class="Main_Game">
+        <table id=GameGrid></table>
+    </section>
+    
+    <section class="Game_Menu">
+        <input type="button" value="Reset Grid" onclick="Reset_Grid_Content()">
+        <input type="button" value="Level 1" onclick="Change_Level(STORED_GRID_1)">
+        <input type="button" value="Level 2" onclick="Change_Level(STORED_GRID_2)">
+        <input type="button" value="Check Lines" onclick="Check_Each_Row_And_Column()">
+    </section>
+    
+    
+</body>
+</body>
+
+</html>
+<footer>
+    <script src="script.js"></script>
+</footer>

@@ -1,0 +1,66 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family:'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+#GameGrid{
+    border: solid 1px bisque;
+    background-color: bisque;
+    max-width: 500px;
+    min-width: 300px;
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    border-radius: 2%;
+}
+
+section{
+    background-color: rgba(236, 236, 236, 0.685);
+    max-width: 1000px;
+    min-width: 300px;
+    width: 75%;
+    margin: 2%;
+    padding: 2%;
+    border-radius: 5px;
+}
+
+.cell{
+    background-color: lightyellow;
+    text-align: center;
+    border-radius: 40%;
+    border: 2px solid bisque;
+    width: auto;
+    aspect-ratio: 1 / 1;
+    color: lightyellow;
+    width: 10%;
+    user-select: none;
+}
+
+.cell:hover[clickable="1"]{
+    border: 2px solid darkslategrey;
+    cursor: pointer;
+}
+
+.cell[clickable="0"]{
+    font-weight: bolder;
+    border: 1px solid grey;
+}
+
+
+td[data_value="1"] {
+    background-color: lightseagreen;
+    color: darkslategrey;
+  } 
+
+
+td[data_value="0"] {
+    background-color: lightsteelblue;
+    color: darkslategrey;
+  } 
+
+  td[error="1"] {
+    background-color: lightcoral;
+    color: darkred;
+    border: 1px solid darkred;
+  } 
+
