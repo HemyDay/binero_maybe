@@ -102,7 +102,8 @@ function Reset_Grid_Content(){
 function Clicked_Tile(){
     Reset_Errors_To_0();
     Change_Data_Value();
-    Check_Each_Row_And_Column();
+    Check_Each_Column();
+    Check_Each_Row();
 }
 
 function Change_Level(level_name){
@@ -124,32 +125,75 @@ function Get_Current_Grid_State(){
     console.log(stored_current_grid);
 }
 
-function Check_Each_Row_And_Column(){
-    Get_Current_Grid_State();
-    currently_checked_id = 0;
+function Check_Each_Column(){
+    let curently_checked_col = 0;
 
-    for (let i = 0; i < grid_size; i++) {   // 10 fois donc les stored_current_grid[*]
+    for (let i = 0; i < grid_size; i++) {
+    curently_checked_col_values = document.querySelectorAll(`#GameGrid * td[cell_col="${curently_checked_col}"]`);
+    
+    let nb_of_0 = [];
+    let nb_of_1 = [];
 
-        let nb_of_0 = [];
-        let nb_of_1 = [];
+    for (let j = 0; j < curently_checked_col_values.length; j++){
+        
+        if (curently_checked_col_values[j].getAttribute("data_value") === "0") {nb_of_0.push(0);}    
+        if (curently_checked_col_values[j].getAttribute("data_value") === "1") {nb_of_1.push(1);}
 
-        currently_checked_lines= stored_current_grid[i]
+    };
 
-        for (let j = 0; j < grid_size; j++) { // 10 fois donc les stored_current_grid[*][*]
-            
-                if (currently_checked_lines[j] === "0") {nb_of_0.push(0);}
-                if (currently_checked_lines[j] === "1") {nb_of_1.push(1);}
-            
+    if (nb_of_0.length > 5 || nb_of_1.length > 5) {
+
+        for (let k = 0; k < grid_size; k++) {
+            if (curently_checked_col_values[k].getAttribute("data_value") !== "2"){
+                curently_checked_col_values[k].setAttribute("error", `${1}`);
+            }
         }
 
-        console.log(nb_of_0);
-        console.log(nb_of_1);
-
+        console.log(`Error on line ${i}`);
+    }
+    
+    console.log(nb_of_0,nb_of_1);
+    
+    curently_checked_col++ ;
     }
 
 
 }
 
+function Check_Each_Row(){
+    let curently_checked_row = 0;
+
+    for (let i = 0; i < grid_size; i++) {
+    curently_checked_row_values = document.querySelectorAll(`#GameGrid * td[cell_row="${curently_checked_row}"]`);
+    
+    let nb_of_0 = [];
+    let nb_of_1 = [];
+
+    for (let j = 0; j < curently_checked_row_values.length; j++){
+        
+        if (curently_checked_row_values[j].getAttribute("data_value") === "0") {nb_of_0.push(0);}    
+        if (curently_checked_row_values[j].getAttribute("data_value") === "1") {nb_of_1.push(1);}
+
+    };
+
+    if (nb_of_0.length > 5 || nb_of_1.length > 5) {
+
+        for (let k = 0; k < grid_size; k++) {
+            if (curently_checked_row_values[k].getAttribute("data_value") !== "2"){
+                curently_checked_row_values[k].setAttribute("error", `${1}`);
+            }
+        }
+
+        console.log(`Error on line ${i}`);
+    }
+    
+    console.log(nb_of_0,nb_of_1);
+    
+    curently_checked_row++ ;
+    }
+
+
+}
 
 // CORE CODE-------------------------------------------------------------------------------------------------------------
 
