@@ -296,9 +296,50 @@ function Check_For_Identical_Rows(){
 }
 
 function Check_For_Triples(){
-    for (let i = 0; i < grid_size; i++) {
+    c_chkd_id = 0;
+    while (c_chkd_id < grid_size * grid_size) {
+        let c_chkd_id_r_of = c_chkd_id + 1;
+        let c_chkd_id_l_of = c_chkd_id - 1;
+
+        if ((c_chkd_id%10) != 0 && (c_chkd_id%10) != 9) {
+            c_chkd_id_value =      document.getElementById(c_chkd_id).getAttribute("data_value");
+            c_chkd_id_value_r_of = document.getElementById(c_chkd_id_r_of).getAttribute("data_value");
+            c_chkd_id_value_l_of = document.getElementById(c_chkd_id_l_of).getAttribute("data_value");
+
+            if (c_chkd_id_value_l_of === c_chkd_id_value && c_chkd_id_value === c_chkd_id_value_r_of && c_chkd_id_value !== "2") {
+
+                console.log(`The cells with ids ${c_chkd_id_l_of}, ${c_chkd_id} and ${c_chkd_id_r_of} are identical`);
+                console.log(`Their values are ${c_chkd_id_value_l_of}, ${c_chkd_id_value} and ${c_chkd_id_value_r_of}`);
+
+                document.getElementById(c_chkd_id).setAttribute("error", `${1}`);
+                document.getElementById(c_chkd_id_l_of).setAttribute("error", `${1}`);
+                document.getElementById(c_chkd_id_r_of).setAttribute("error", `${1}`);
+            }
+        }    
+
+        let c_chkd_id_t_of = c_chkd_id - 10;
+        let c_chkd_id_b_of = c_chkd_id + 10;
         
+        if (c_chkd_id >= 10 && c_chkd_id <= 89) {
+            c_chkd_id_value =      document.getElementById(c_chkd_id).getAttribute("data_value");
+            c_chkd_id_value_t_of = document.getElementById(c_chkd_id_t_of).getAttribute("data_value");
+            c_chkd_id_value_b_of = document.getElementById(c_chkd_id_b_of).getAttribute("data_value");
+
+            if (c_chkd_id_value_b_of === c_chkd_id_value && c_chkd_id_value === c_chkd_id_value_t_of && c_chkd_id_value !== "2") {
+
+                console.log(`The cells with ids ${c_chkd_id_t_of}, ${c_chkd_id} and ${c_chkd_id_b_of}`);
+                console.log(`Their values are ${c_chkd_id_value_t_of}, ${c_chkd_id_value} and ${c_chkd_id_value_b_of} are identical`);
+                
+                document.getElementById(c_chkd_id).setAttribute("error", `${1}`);
+                document.getElementById(c_chkd_id_t_of).setAttribute("error", `${1}`);
+                document.getElementById(c_chkd_id_b_of).setAttribute("error", `${1}`);
+            }
+        }  
+        
+
+        c_chkd_id++;
     }
+
 }
 
 // CORE CODE-------------------------------------------------------------------------------------------------------------
