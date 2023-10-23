@@ -22,7 +22,38 @@ const STORED_GRID_2=[   0,2,2,0,0,2,2,2,2,0,
                         1,2,1,2,1,2,1,2,2,1,
                         2,0,2,2,1,2,1,2,2,2,];
 
+const STORED_GRID_3=[   2,2,1,1,2,2,2,2,0,2,
+                        1,0,2,1,2,0,2,0,0,2,
+                        2,2,0,2,2,2,1,2,2,2,
+                        2,2,2,2,1,2,2,2,2,2,
+                        0,2,0,2,2,0,2,2,1,1,
+                        2,1,2,2,2,2,1,1,2,2,
+                        1,2,2,1,2,2,2,2,2,2,
+                        2,2,0,2,2,2,0,2,2,2,
+                        2,2,0,2,2,1,2,2,2,0,
+                        0,2,2,2,1,2,2,1,2,2,];
 
+const STORED_GRID_4=[   1,2,2,1,2,0,0,2,0,0,
+                        0,0,2,2,2,2,2,2,2,2,
+                        2,2,2,2,1,2,2,1,2,2,
+                        0,2,0,2,2,2,1,1,2,2,
+                        2,2,0,2,2,2,2,2,0,2,
+                        2,2,2,2,0,2,2,1,2,2,
+                        1,2,2,1,2,2,2,2,2,0,
+                        2,2,1,1,2,2,0,2,2,2,
+                        2,2,2,2,0,2,0,2,1,1,
+                        2,1,2,2,2,2,2,2,1,2,];
+
+const STORED_GRID_5=[   0,2,2,0,2,2,1,2,1,2,
+                        2,1,2,2,2,0,2,2,0,0,
+                        1,2,2,0,2,0,2,1,2,2,
+                        2,0,2,1,2,2,2,2,0,2,
+                        1,0,2,2,2,0,2,2,2,1,
+                        1,2,2,2,2,2,1,2,2,2,
+                        2,2,2,2,2,2,2,1,2,2,
+                        2,2,2,2,2,2,2,2,2,0,
+                        0,0,2,2,1,2,1,2,1,2,
+                        2,2,2,0,0,2,2,0,2,0,];
 
 // VARIABLES DECLARATIONS------------------------------------------------------------------------------------------------
 const   GAME_GRID_TABLE = document.querySelector("#GameGrid");  // The table where the game will be displayed
@@ -34,9 +65,11 @@ let     stored_current_grid =[[],[],[],[],[],[],[],[],[],[]]    // Array that st
 let     level_grid = STORED_GRID_2;                             // The default level choice
 
 // FUNCTIONS DECLARATIONS------------------------------------------------------------------------------------------------
+
 function Generate_Grid_Binero_HTML_Content(){
     Delete_Grid_Binero()
-    id_nb_generation = 0;
+    
+    id_nb_generation=0;
 
     for (let i = 0; i < grid_size; i++) {
 
@@ -100,10 +133,14 @@ function Reset_Grid_Content(){
 }
 
 function Clicked_Tile(){
+    console.clear();
     Reset_Errors_To_0();
     Change_Data_Value();
     Check_Each_Column();
     Check_Each_Row();
+    Check_For_Identical_Columns();
+    Check_For_Identical_Rows();
+    Check_For_Triples();
 }
 
 function Change_Level(level_name){
@@ -126,10 +163,8 @@ function Get_Current_Grid_State(){
 }
 
 function Check_Each_Column(){
-    let curently_checked_col = 0;
-
     for (let i = 0; i < grid_size; i++) {
-    curently_checked_col_values = document.querySelectorAll(`#GameGrid * td[cell_col="${curently_checked_col}"]`);
+    curently_checked_col_values = document.querySelectorAll(`#GameGrid * td[cell_col="${i}"]`);
     
     let nb_of_0 = [];
     let nb_of_1 = [];
@@ -149,22 +184,17 @@ function Check_Each_Column(){
             }
         }
 
-        console.log(`Error on line ${i}`);
+        console.log(`Error on column ${i}`);
     }
     
-    console.log(nb_of_0,nb_of_1);
-    
-    curently_checked_col++ ;
     }
 
 
 }
 
 function Check_Each_Row(){
-    let curently_checked_row = 0;
-
     for (let i = 0; i < grid_size; i++) {
-    curently_checked_row_values = document.querySelectorAll(`#GameGrid * td[cell_row="${curently_checked_row}"]`);
+    curently_checked_row_values = document.querySelectorAll(`#GameGrid * td[cell_row="${i}"]`);
     
     let nb_of_0 = [];
     let nb_of_1 = [];
@@ -186,13 +216,89 @@ function Check_Each_Row(){
 
         console.log(`Error on line ${i}`);
     }
-    
-    console.log(nb_of_0,nb_of_1);
-    
-    curently_checked_row++ ;
     }
 
 
+}
+
+function Check_For_Identical_Columns(){
+
+    let all_columns_for_comparison =[[],[],[],[],[],[],[],[],[],[]];
+
+    for (let i = 0; i < grid_size; i++) {
+        curently_checked_col_id = document.querySelectorAll(`#GameGrid * td[cell_col="${i}"]`);
+
+        for (let j = 0; j < grid_size ; j++) {
+            all_columns_for_comparison[i].push(curently_checked_col_id[j].getAttribute("data_value"));
+        } 
+    }
+
+    for (let k = 0; k < grid_size - 1; k++) {
+
+        for (let m = k+1; m < grid_size; m++) {
+            if (all_columns_for_comparison[k].toString() == all_columns_for_comparison[m].toString()){
+                console.log(`col ${k} and col ${m} are identical`);
+                
+                let identical_column_a = document.querySelectorAll(`#GameGrid * td[cell_col="${m}"]`);
+                let identical_column_b = document.querySelectorAll(`#GameGrid * td[cell_col="${k}"]`);
+
+                for (let v = 0; v < grid_size; v++) {
+                    if (identical_column_a[v].getAttribute("data_value") !== "2"){
+                        identical_column_a[v].setAttribute("error", `${1}`);
+                    }
+
+                    if (identical_column_b[v].getAttribute("data_value") !== "2"){
+                        identical_column_b[v].setAttribute("error", `${1}`);
+                    }
+                }
+            }
+        }
+
+    }
+    
+}
+
+function Check_For_Identical_Rows(){
+
+    let all_rows_for_comparison =[[],[],[],[],[],[],[],[],[],[]];
+
+    for (let i = 0; i < grid_size; i++) {
+        curently_checked_row_id = document.querySelectorAll(`#GameGrid * td[cell_row="${i}"]`);
+
+        for (let j = 0; j < grid_size ; j++) {
+            all_rows_for_comparison[i].push(curently_checked_row_id[j].getAttribute("data_value"));
+        } 
+    }
+
+    for (let k = 0; k < grid_size - 1; k++) {
+
+        for (let m = k+1; m < grid_size; m++) {
+            if (all_rows_for_comparison[k].toString() == all_rows_for_comparison[m].toString()){
+                console.log(`row ${k} and row ${m} are identical`);
+                
+                let identical_row_a = document.querySelectorAll(`#GameGrid * td[cell_row="${m}"]`);
+                let identical_row_b = document.querySelectorAll(`#GameGrid * td[cell_row="${k}"]`);
+
+                for (let v = 0; v < grid_size; v++) {
+                    if (identical_row_a[v].getAttribute("data_value") !== "2"){
+                        identical_row_a[v].setAttribute("error", `${1}`);
+                    }
+
+                    if (identical_row_b[v].getAttribute("data_value") !== "2"){
+                        identical_row_b[v].setAttribute("error", `${1}`);
+                    }
+                }
+            }
+        }
+
+    }
+    
+}
+
+function Check_For_Triples(){
+    for (let i = 0; i < grid_size; i++) {
+        
+    }
 }
 
 // CORE CODE-------------------------------------------------------------------------------------------------------------
